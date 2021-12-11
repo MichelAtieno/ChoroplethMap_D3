@@ -7,6 +7,12 @@ let educationData
 let canvas = d3.select("#canvas")
 
 let drawMap = () => {
+    canvas.selectAll("path")
+          .data(countyData)
+          .enter()
+          .append("path")
+          .attr("d", d3.geoPath())
+          .attr("class", "county")
 
 }
 
@@ -15,7 +21,7 @@ d3.json(countyURL).then(
         if(error) {
             console.log(error)
         } else {
-            countyData = data
+            countyData = topojson.feature(data, data.objects.counties).features
             console.log(countyData)
 
             d3.json(educationURL).then(
@@ -25,6 +31,7 @@ d3.json(countyURL).then(
                     } else {
                         educationData = data
                         console.log(educationData)
+                        drawMap()
                     }
                 }
             )
