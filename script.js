@@ -13,6 +13,22 @@ let drawMap = () => {
           .append("path")
           .attr("d", d3.geoPath())
           .attr("class", "county")
+          .attr("fill", (countyDataItem) => {
+            let id = countyDataItem["id"]
+            let county = educationData.find((item) => {
+                return item["fips"] === id
+            })
+            let percentage = county['bachelorsOrHigher']
+            if(percentage <= 15) {
+                 return 'red'
+            }else if(percentage <= 30) {
+                return 'orange'
+            }else if(percentage <= 45) {
+                return 'lightgreen'
+            }else {
+                return 'limegreen'
+            }
+          })
 
 }
 
